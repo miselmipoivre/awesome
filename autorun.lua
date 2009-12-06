@@ -16,7 +16,7 @@ autorunApps =
     {"xterm -e wmname LG3D"                                , 5} , 
     {"random_background"                                   , 0} , 
     --{"xcompmgr"                                          , 0} , 
-    {"xcompmgr -cCfF -t-5 -l-5 -r0 -o.5 -D6"               , 0} , 
+    {"xcompmgr -cCfF -t-5 -l-5 -r0 -o.5 -D6"               , 2} , 
     {"audacious2"                                          , 0} , 
     --{"~/.config/openbox/autostart.sh"                    , 0} , 
     {"conky -b -c /home/misel/Scripts/conky/brenden.conky" , 0} , 
@@ -27,7 +27,7 @@ autorunApps =
     {"idesk"                                               , 0} , 
     {"basket"                                              , 0} , 
     {"gvim"                                                , 0} , 
-    {"thunderbird"                                         , 0} , 
+    --{"thunderbird"                                         , 0} , 
     {"midori"                                              , 0} , 
     {"arora"                                               , 0} , 
 }

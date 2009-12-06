@@ -13,8 +13,10 @@ end
 
 -- Bind ''Meta4+Ctrl+m'' to move the mouse to the coordinates set above.
 --   this is useful if you needed the mouse for something and now want it out of the way
-keybinding({ modkey, "Control" }, "m", function() moveMouse(safeCoords.x, safeCoords.y) end):add()
-
+globalkeys = awful.util.table.join(globalkeys,
+awful.key({ modkey, "Control" }, "m", function() moveMouse(safeCoords.x, safeCoords.y) end)
+)
+root.keys(globalkeys)
 -- Optionally move the mouse when rc.lua is read (startup)
 if moveMouseOnStartup then
         moveMouse(safeCoords.x, safeCoords.y)

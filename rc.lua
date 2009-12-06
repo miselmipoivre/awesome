@@ -15,8 +15,8 @@ require("teardrop")
 -- Themes define colours, icons, and wallpapers
 --beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 --beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
-beautiful.init("/usr/share/awesome/themes/sky-grey/theme.lua")
---beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+--beautiful.init("/usr/share/awesome/themes/sky-grey/theme.lua")
+beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "terminator"
@@ -65,7 +65,9 @@ layouts =
 tags = {}
 -- Each screen has its own tag table.
 tags[1] = awful.tag({ "Edit", "Mail", "Music", 4, 5, 6, 7, 8, 9 ,""}, 1, awful.layout.suit.max)
+tag2 = 1
 if screen.count() == 2 then
+    tag2 = 2
     tags[2] = awful.tag({ "www", 2, 3, 4, 5, 6, 7, 8, 9 ,""}, 2, awful.layout.suit.max)
 end
 -- }}}
@@ -93,7 +95,7 @@ mymainmenu = awful.menu.new({ items = {
                                         { "File Manager", "pcmanfm" },
                                         { "VirtualBox", "VirtualBox" },
                                         { "Common App", mycommons, beautiful.awesome_icon },
-                                        { "awesome", myawesomemenu, beautiful.awesome_icon }
+                                        { "awesome", myawesomemenu, beautiful.awesome_icon },
                                        }
                              })
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
@@ -102,8 +104,9 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 
 -- {{{ Wibox
 -- Create a textclock widget
+--
 mytextclock = awful.widget.textclock({ align = "right" })
---require("clock_calendar")
+require("clock_calendar")
 
 
 
@@ -222,6 +225,14 @@ globalkeys = awful.util.table.join(
             if client.focus then client.focus:raise() end
         end),
     awful.key({ modkey,           }, "w", function () mymainmenu:show(true)        end),
+    awful.key({ modkey,"Control"  }, "w", function ()
+                                              if instance then
+                                                  instance:hide()
+                                                  instance = nil
+                                              else
+                                                  instance = awful.menu.clients({ width=250 })
+                                              end
+                                          end),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end),
@@ -414,17 +425,17 @@ awful.rules.rules = {
     { rule = { class = "Audacious"                  }, properties = { tag = tags[1][3], switchtotag = true }  }, 
     { rule = { class = "Terminator"                 }, properties = { floating = true , callback = awful.placement.centered  }  }, 
     { rule = { class = "Thunderbird-bin"            }, properties = { tag = tags[1][2], switchtotag = true } }, 
-    { rule = { class = "Firefox"                    }, properties = { tag = tags[2][1] } }, 
-    { rule = { class = "GNU IceCat"                 }, properties = { tag = tags[2][1] } }, 
-    { rule = { class = "Chrome"                     }, properties = { tag = tags[2][1] } }, 
-    { rule = { class = "Opera"                      }, properties = { tag = tags[2][1] } }, 
-    { rule = { class = "Midori"                     }, properties = { tag = tags[2][1] } }, 
+    { rule = { class = "Firefox"                    }, properties = { tag = tags[tag2][1] } }, 
+    { rule = { class = "GNU IceCat"                 }, properties = { tag = tags[tag2][1] } }, 
+    { rule = { class = "Chrome"                     }, properties = { tag = tags[tag2][1] } }, 
+    { rule = { class = "Opera"                      }, properties = { tag = tags[tag2][1] } }, 
+    { rule = { class = "Midori"                     }, properties = { tag = tags[tag2][1] } }, 
     -- tag 3 WWW perso
-    { rule = { class = "Arora"                      }, properties = { tag = tags[2][3] } }, 
+    { rule = { class = "Arora"                      }, properties = { tag = tags[tag2][3] } }, 
 
     { rule = { class = "Basket"                     }, properties = { tag = tags[1][4], switchtotag = true } }, 
     { rule = { class = "oracle-ide-boot-Launcher"   }, properties = { tag = tags[1][2] }, switchtotag = true }, 
-    --{ rule = { class ~= "oracle"                    }, properties = { tag = tags[2][2] } }, 
+    --{ rule = { class ~= "oracle"                    }, properties = { tag = tags[tag2][2] } }, 
     --{ rule = { class ~= "Gvim"                    }, properties = { tag = tags[1][1] } }, 
 }
 -- }}}
