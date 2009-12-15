@@ -66,6 +66,11 @@ layouts =
 -- {{{ Tags
 -- Define a tag table which hold all screen tags.
 tags = {}
+
+-- add some settings vars
+settings = {}
+settings.window_d=1
+
 -- Each screen has its own tag table.
 tags[1] = awful.tag({ "1.Edit", "2.Mail", "3.Music", "4.Files", "5.Terms", 6, 7, 8, 9 ,""}, 1, awful.layout.suit.max)
 tag2 = 1
@@ -254,6 +259,7 @@ root.buttons(awful.util.table.join(
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
+
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
 
     awful.key({ modkey,           }, "j",
@@ -291,10 +297,20 @@ globalkeys = awful.util.table.join(
         end),
     awful.key({ modkey,           }, "d",
         function ()
+            
+            settings.window_d = settings.window_d * -1
+
+            if settings.window_d == 1 then
+                showtag = 1
+            else
+                showtag = 10
+            end
+            for s = 1, screen.count() do
+                awful.tag.viewonly(tags[s][showtag]) end
+            
+
             --if tags[mouse.screen][10] then awful.tag.viewonly(tags[mouse.screen][10]) end
                                                   --awful.tag.viewonly(c:tags()[1])
-            for s = 1, screen.count() do
-                awful.tag.viewonly(tags[s][10]) end
 
             --[[
             local allclients = awful.client.visible(client.focus.screen)
@@ -511,7 +527,7 @@ awful.rules.rules = {
     -- tag 3 WWW perso
     { rule = { class = "Arora"                      }, properties = { tag = tags[tag2][3] } }, 
     { rule = { class = "Pcmanfm"                    }, properties = { tag = tags[1][4], opacity = 0.9 } }, 
-    { rule = { class = "Terminator"                    }, properties = { border_width=0} }, 
+    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true } }, 
     { rule = { class = "Conky"                      }, properties = { opacity = 0.8 } }, 
 
     { rule = { class = "Basket"                     }, properties = { tag = tags[1][4], switchtotag = true } }, 
