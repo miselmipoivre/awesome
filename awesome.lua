@@ -10,6 +10,7 @@ require("naughty")
 require("vicious")
 require("volume")
 require("teardrop")
+require("rodentbane")
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
@@ -257,6 +258,8 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+    awful.key({ modkey,"Mod1","Control"           }, "m",  function()  rodentbane.start() end  ),
+    
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
 
@@ -473,7 +476,10 @@ clientbuttons = awful.util.table.join(
     awful.button({ "Mod1"            } , 3, awful.mouse.client.resize),    -- misel adds
     awful.button({ modkey            } , 3, awful.mouse.client.resize),
 
-    awful.button({ "Mod1"            } , 2, function ()  awful.util.spawn("audacious2 --play-pause") end),
+    -- bouton dessus  1,2,3  molette: 4,5 14,13 bouton cote: 9,8
+    --awful.button({ "Mod1"            } , 2, function ()  awful.util.spawn("audacious2 --play-pause") end),
+    awful.button({ "Mod1"            } , 8, function ()  awful.util.spawn("audacious2 --play-pause") end),
+    awful.button({ "Mod1"            } , 9, function ()  awful.util.spawn("audacious2 --play-pause") end),
     awful.button({ "Mod1"            } , 6, function ()  awful.util.spawn("audacious2 --rew") end),
     awful.button({ "Mod1"            } , 7, function ()  awful.util.spawn("audacious2 --fwd") end),
 
@@ -505,7 +511,10 @@ awful.rules.rules = {
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
                      focus = true,
+                     switchtotag = true,
                      keys = clientkeys,
+                     -- screen, tag, float, geometry, slave, nopopup, nofocus, intrusive, fullscreen, honorsizehints, kill
+                     -- ontop, below, above, buttons, keys, hide, minimized, dockable, urgent, opacity, titlebar, run, sticky, wfact, struts.
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },      properties = { floating = true } },
     { rule = { class = "Xev" },      properties = { floating = true } },
@@ -514,7 +523,7 @@ awful.rules.rules = {
     { rule = { class = "gimp" },
       properties = { floating = true } },
     --{ rule = { class = "Pidgin"                     }, properties = { tag = tags[1][2], floating = true, switchtotag = true, callback = awful.placement.centered } },
-    { rule = { class = "Pidgin"                     }, properties = { tag = tags[1][2], floating = true, switchtotag = true } },
+    { rule = { class = "Pidgin"                     }, properties = { tag = tags[1][2], sticky = true, floating = true, switchtotag = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
     { rule = { class = "Audacious"                  }, properties = { tag = tags[1][3], switchtotag = true, border_width=0 }  }, 
     { rule = { class = "Terminator"                 }, properties = { floating = true , callback = awful.placement.centered  }  }, 

@@ -30,7 +30,7 @@ autorunApps =
     --{"pcmanfm"                                              , 0} , 
     {"gvim"                                                , 0} , 
     {"thunderbird"                                         , 0} , 
-    {"midori"                                              , 0} , 
+    --{"midori"                                              , 0} , 
     {"arora"                                               , 0} , 
 }
 if autorun then
