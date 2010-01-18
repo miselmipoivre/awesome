@@ -36,6 +36,7 @@ modkey = "Mod4"
 --skey   = "Shift"
 --akey   = "Mod1"     -- alt
 --ckey   = "Control"  
+--m = { W = "Mod4", C = "Control", S = "Shift", A = "Alt" }
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 layouts =
@@ -73,13 +74,21 @@ settings = {}
 settings.window_d=1
 
 -- Each screen has its own tag table.
-tags[1] = awful.tag({ "1.Edit", "2.Mail", "3.Music", "4.Files", "5.Terms", 6, 7, 8, 9 ,""}, 1, awful.layout.suit.max)
+
+tag1 = 2
 tag2 = 1
+tags[tag1] = awful.tag({ "1.Edit", "2.Mail", "3.Music", "4.Files", "5.Terms", 6, 7, 8, 9 ,""}, tag1, awful.layout.suit.floating)
 if screen.count() == 2 then
-    tag2 = 2
-    tags[2] = awful.tag({ "www", 2, 3, 4, 5, 6, 7, 8, 9 ,""}, 2, awful.layout.suit.max)
+    tag2 = 1
+    tags[tag2] = awful.tag({ "www", 2, 3, 4, 5, 6, 7, 8, 9 ,""}, tag2, awful.layout.suit.floating)
 end
 -- }}}
+
+
+  require('freedesktop.menu')
+  --require("debian.menu")
+
+  menu_items = freedesktop.menu.applications_menu
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
@@ -105,6 +114,7 @@ mymainmenu = awful.menu.new({ items = {
                                         { "VirtualBox", "VirtualBox" },
                                         { "Common App", mycommons, beautiful.awesome_icon },
                                         { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                        { "menu_items", menu_items },
                                        }
                              })
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
@@ -504,11 +514,14 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 -- }}}
 
+require("mouse_move")
+
 -- {{{ Rules
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
-      properties = { border_width = beautiful.border_width,
+      properties = { --border_width = beautiful.border_width,
+                     border_width = 1,
                      border_color = beautiful.border_normal,
                      focus = true,
                      switchtotag = true,
@@ -516,31 +529,34 @@ awful.rules.rules = {
                      -- screen, tag, float, geometry, slave, nopopup, nofocus, intrusive, fullscreen, honorsizehints, kill
                      -- ontop, below, above, buttons, keys, hide, minimized, dockable, urgent, opacity, titlebar, run, sticky, wfact, struts.
                      buttons = clientbuttons } },
-    { rule = { class = "MPlayer" },      properties = { floating = true } },
-    { rule = { class = "Xev" },      properties = { floating = true } },
-    { rule = { class = "pinentry" },
-      properties = { floating = true } },
-    { rule = { class = "gimp" },
-      properties = { floating = true } },
+    { rule = { class = "MPlayer"                    }, properties = { floating = true } },
+    { rule = { class = "Xev"                        }, properties = { floating = true } },
+    { rule = { class = "pinentry"                   }, properties = { floating = true } },
+    { rule = { class = "gimp"                       }, properties = { floating = true } },
     --{ rule = { class = "Pidgin"                     }, properties = { tag = tags[1][2], floating = true, switchtotag = true, callback = awful.placement.centered } },
-    { rule = { class = "Pidgin"                     }, properties = { tag = tags[1][2], sticky = true, floating = true, switchtotag = true } },
+    { rule = { class = "Pidgin"                     }, properties = { tag = tags[tag1][2], sticky = true, floating = true, switchtotag = true } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "Audacious"                  }, properties = { tag = tags[1][3], switchtotag = true, border_width=0 }  }, 
+    { rule = { class = "Audacious"                  }, properties = { tag = tags[tag1][3], switchtotag = true, border_width=0 }  }, 
+    { rule = { name  = "spotify.exe"                }, properties = { tag = tags[tag1][3] }  }, 
     { rule = { class = "Terminator"                 }, properties = { floating = true , callback = awful.placement.centered  }  }, 
-    { rule = { class = "Thunderbird-bin"            }, properties = { tag = tags[1][2], switchtotag = true } }, 
+    { rule = { class = "Thunderbird"                }, properties = { tag = tags[tag1][2], switchtotag = true, floating = true } }, 
+
     { rule = { class = "Firefox"                    }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "GNU IceCat"                 }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "Chrome"                     }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "Opera"                      }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "Midori"                     }, properties = { tag = tags[tag2][1] } }, 
+    { rule = { class = "Epiphany"                   }, properties = { tag = tags[tag2][1] } }, 
     -- tag 3 WWW perso
     { rule = { class = "Arora"                      }, properties = { tag = tags[tag2][3] } }, 
-    { rule = { class = "Pcmanfm"                    }, properties = { tag = tags[1][4], opacity = 0.9 } }, 
-    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true } }, 
+    { rule = { class = "Pcmanfm"                    }, properties = { tag = tags[tag1][4], opacity = 0.9 } }, 
+    --{ rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=500,height=300} } }, 
+    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=400,height=200} } }, 
     { rule = { class = "Conky"                      }, properties = { opacity = 0.8 } }, 
 
-    { rule = { class = "Basket"                     }, properties = { tag = tags[1][4], switchtotag = true } }, 
-    { rule = { class = "oracle-ide-boot-Launcher"   }, properties = { tag = tags[1][2] }, switchtotag = true }, 
+    { rule = { class = "Basket"                     }, properties = { tag = tags[tag1][4], switchtotag = true } }, 
+    { rule = { class = "oracle-ide-boot-Launcher"   }, properties = { tag = tags[tag1][2], switchtotag = true } },
+
     --{ rule = { class ~= "oracle"                    }, properties = { tag = tags[tag2][2] } }, 
     --{ rule = { class ~= "Gvim"                    }, properties = { tag = tags[1][1] } }, 
 }
@@ -593,5 +609,4 @@ awful.hooks.timer.register(6000, function () awful.util.spawn_with_shell("lightr
 
 
 require("autorun")
-require("mouse_move")
 
