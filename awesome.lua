@@ -7,16 +7,17 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
-require("vicious")
+--require("vicious")
 require("volume")
 require("teardrop")
 require("rodentbane")
 
+
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
 --beautiful.init("/usr/share/awesome/themes/default/theme.lua")
---beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
-beautiful.init("/usr/share/awesome/themes/sky-grey/theme.lua")
+--beautiful.init("/usr/share/awesome/themes/sky-grey/theme.lua")
+beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
 --beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 --beautiful.init( os.getenv("HOME").."/.config/awesome/themes/grey/theme.lua" )
@@ -514,14 +515,19 @@ clientbuttons = awful.util.table.join(
 root.keys(globalkeys)
 -- }}}
 
-require("mouse_move")
+--require("shifty")
+--shifty.config.apps = {
+--       { match = {"Terminator"                        }, geometry = { 100,100,100,100 },       }
+--}
+--shifty.init()
 
+require("mouse_move")
 -- {{{ Rules
 awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
       properties = { --border_width = beautiful.border_width,
-                     border_width = 1,
+                     border_width = 10,
                      border_color = beautiful.border_normal,
                      focus = true,
                      switchtotag = true,
@@ -550,15 +556,33 @@ awful.rules.rules = {
     -- tag 3 WWW perso
     { rule = { class = "Arora"                      }, properties = { tag = tags[tag2][3] } }, 
     { rule = { class = "Pcmanfm"                    }, properties = { tag = tags[tag1][4], opacity = 0.9 } }, 
-    --{ rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=500,height=300} } }, 
-    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=400,height=200} } }, 
+    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=100,height=300} } }, 
+    --{ rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=100,y=100,width=400,height=200} } }, 
     { rule = { class = "Conky"                      }, properties = { opacity = 0.8 } }, 
 
     { rule = { class = "Basket"                     }, properties = { tag = tags[tag1][4], switchtotag = true } }, 
     { rule = { class = "oracle-ide-boot-Launcher"   }, properties = { tag = tags[tag1][2], switchtotag = true } },
 
     --{ rule = { class ~= "oracle"                    }, properties = { tag = tags[tag2][2] } }, 
-    --{ rule = { class ~= "Gvim"                    }, properties = { tag = tags[1][1] } }, 
+            
+--[[
+    { rule = { type = "xxx"  }, properties = {}}, 
+    { rule = { class = "xxx"  }, properties = {}, 
+    { rule = { instance = "xxx"  }, properties = {}, 
+    { rule = { role = "xxx"  }, properties = {}, 
+    { rule = { name = "xxx"  }, properties = {}, 
+]]--
+
+    { rule = { class = "Gvim"                    }, properties = {
+--beautiful.border_normal = "#000000"
+--beautiful.border_focus  = "#3accc5"
+--beautiful.border_marked = "#0000f0"
+
+        border_color = beautiful.border_focus
+        --border_color = "#CACACA"
+    }}, 
+
+
 }
 -- }}}
 
@@ -607,6 +631,88 @@ awful.hooks.timer.register(6000, function () awful.util.spawn_with_shell("lightr
 --client.add_signal("focus", function(c) c.opacity = 0.95 end)
 --client.add_signal("unfocus", function(c) c.opacity = 0.4 end)
 
+
+
+client.add_signal("focus", function(c) 
+    --if floats(c) then
+    --    c.border_color = '#FFFF00'
+    --else
+    if not floats(c) then
+        --c.border_color = '#FF0000'
+        c.border_color = '#000000'
+    end
+    mouse_warp(c)
+    --c.opacity = 0.4
+end)
+--client.add_signal("unfocus", function(c) c.opacity = 0.4 end)
+
+
+
+-- {{{ Key Chaining
+--
+--
+--[[
+
+keybind_ctrl_f = {} 
+  
+ function keychain_ctrl_f_add() 
+     for k, v in pairs(keybind_ctrl_f) do 
+         v:add() 
+     end 
+ end 
+ 
+ function keychain_ctrl_f_remove() 
+     for k, v in pairs(keybind_ctrl_f) do 
+         v:remove() 
+     end 
+ end 
+ table.insert(keybind_ctrl_f, keybinding({}, "a", function () 
+     awful.util.spawn("terminator")
+     --mytextbox.text = "Vous avez appuyé sur A !"
+     keychain_ctrl_f_remove() 
+ end)) 
+ 
+ table.insert(keybind_ctrl_f, keybinding({}, "b", function () 
+     awful.util.spawn("terminator")
+     --mytextbox.text = "Vous avez appuyé sur Super + B !"
+     keychain_ctrl_f_remove() 
+ end)) 
+ table.insert(keybind_ctrl_f, keybinding({}, "Escape", keychain_ctrl_f_remove))
+ keybinding({ "Control" }, "f", keychain_ctrl_f_add):add()
+
+
+table.insert(keybind_ctrl_f,
+function ()
+    globalkeys = awful.util.table.join(   globalkeys,
+        awful.key({}, "a",   function () 
+                             awful.util.spawn("terminator")
+                             --awful.util.spawn("transset-df -p --inc 0.3")
+                             --mytextbox.text = "Vous avez appuyé sur A !"
+                             keychain_ctrl_f_remove() 
+                         end  )
+    )
+    root.keys(globalkeys)
+end)
+ 
+table.insert(keybind_ctrl_f,
+function ()
+    globalkeys = awful.util.table.join(   globalkeys,
+        awful.key({}, "b",   function () 
+                             awful.util.spawn("terminator")
+                             --awful.util.spawn("transset-df -p --dec 0.3")
+                             --mytextbox.text = "Vous avez appuyé sur B !"
+                             keychain_ctrl_f_remove() 
+                         end  )
+    )
+    root.keys(globalkeys)
+end) 
+
+
+globalkeys = awful.util.table.join(globalkeys,
+    awful.key({ "Control"           }, "f",  keychain_ctrl_f_add  )
+)
+root.keys(globalkeys)
+]]--
 
 require("autorun")
 
