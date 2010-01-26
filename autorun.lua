@@ -29,7 +29,7 @@ autorunApps =
     --{"basket"                                              , 0} , 
     --{"pcmanfm"                                              , 0} , 
     {"gvim"                                                , 0} , 
-    {"thunderbird"                                         , 0} , 
+    --{"thunderbird"                                         , 0} , 
     --{"midori"                                              , 0} , 
     {"arora"                                               , 0} , 
 }

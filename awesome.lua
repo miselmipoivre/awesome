@@ -76,11 +76,11 @@ settings.window_d=1
 
 -- Each screen has its own tag table.
 
-tag1 = 2
+tag1 = 1 
 tag2 = 1
 tags[tag1] = awful.tag({ "1.Edit", "2.Mail", "3.Music", "4.Files", "5.Terms", 6, 7, 8, 9 ,""}, tag1, awful.layout.suit.floating)
 if screen.count() == 2 then
-    tag2 = 1
+    tag2 = 2
     tags[tag2] = awful.tag({ "www", 2, 3, 4, 5, 6, 7, 8, 9 ,""}, tag2, awful.layout.suit.floating)
 end
 -- }}}
@@ -381,6 +381,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- alt key : Mod1 , use xev to see all key names!!!
+    awful.key({ modkey }, "F2", function () awful.util.spawn("gnome-do") end),
     awful.key({ "Mod1",          }, "F2", function () awful.util.spawn("gmrun") end),
     --awful.key({ "Mod1",          }, "F2", function () teardrop("gmrun") end),
     awful.key({ "Mod1","Control" }, "l", function () awful.util.spawn("xlock") end),
@@ -527,7 +528,7 @@ awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
       properties = { --border_width = beautiful.border_width,
-                     border_width = 10,
+                     border_width = 20,
                      border_color = beautiful.border_normal,
                      focus = true,
                      switchtotag = true,
@@ -590,7 +591,7 @@ awful.rules.rules = {
 -- Signal function to execute when a new client appears.
 client.add_signal("manage", function (c, startup)
     -- Add a titlebar
-    -- awful.titlebar.add(c, { modkey = modkey })
+    --awful.titlebar.add(c, { modkey = modkey })
     
     --Gaps! There are gaps! How do I get rid of the gaps at the top/bottom of the screen
     c.size_hints_honor = false
@@ -631,19 +632,36 @@ awful.hooks.timer.register(6000, function () awful.util.spawn_with_shell("lightr
 --client.add_signal("focus", function(c) c.opacity = 0.95 end)
 --client.add_signal("unfocus", function(c) c.opacity = 0.4 end)
 
-
-
-client.add_signal("focus", function(c) 
+local function blackBorderClient(c,black)
     --if floats(c) then
     --    c.border_color = '#FFFF00'
     --else
     if not floats(c) then
         --c.border_color = '#FF0000'
-        c.border_color = '#000000'
+        if 1 == black then
+            c.opacity = 0.9
+            c.border_color = '#CC0000'
+        else
+            c.opacity = 0.4
+            c.border_color = '#000000'
+        end
+        if c.border_width > 0 then
+            c.border_width = 30 
+        end
+    else
+        c.opacity = 1
+        if c.border_width > 0 then
+            c.border_width = 20 
+        end
     end
-    mouse_warp(c)
+    --mouse_warp(c)
     --c.opacity = 0.4
-end)
+end
+
+client.add_signal("focus"  , function(c) blackBorderClient(c,1) end )
+client.add_signal("unfocus", function(c) blackBorderClient(c,0) end)
+
+
 --client.add_signal("unfocus", function(c) c.opacity = 0.4 end)
 
 
