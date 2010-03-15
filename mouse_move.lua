@@ -115,16 +115,16 @@ clientkeys = awful.util.table.join(clientkeys,
 
 
 -- move floating windows
-    awful.key({ modkey } , "KP_End"   , function(c ) move_client_float(c , -moveStep , moveStep  ) end )  , 
-    awful.key({ modkey } , "KP_Down"  , function(c ) move_client_float(c , 0          , moveStep  ) end )  , 
-    awful.key({ modkey } , "KP_Next"  , function(c ) move_client_float(c , moveStep  , moveStep  ) end )  , 
-    awful.key({ modkey } , "KP_Left"  , function(c ) move_client_float(c , -moveStep , 0          ) end )  , 
-    awful.key({ modkey } , "KP_Begin" , function(c) move_client_edge(c , "CENTERCENTER" )  end  )  , 
-    awful.key({ modkey } , "KP_Right" , function(c ) move_client_float(c , moveStep  , 0          ) end )  , 
-    awful.key({ modkey } , "KP_Home"  , function(c ) move_client_float(c , -moveStep , -moveStep ) end )  , 
-    awful.key({ modkey } , "KP_Up"    , function(c ) move_client_float(c , 0          , -moveStep ) end )  , 
-    awful.key({ modkey } , "KP_Prior" , function(c ) move_client_float(c , moveStep  , -moveStep ) end )  , 
-    awful.key({ modkey } , "KP_End"   , function(c ) move_client_float(c , -moveStep , moveStep  ) end )  , 
+    --awful.key({ modkey , "Shift" } , "KP_End"   , function(c ) move_client_float(c , -moveStep , moveStep  ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_End"   , function(c ) move_client_float(c , -moveStep , moveStep  ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Down"  , function(c ) move_client_float(c , 0          , moveStep  ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Next"  , function(c ) move_client_float(c , moveStep  , moveStep  ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Left"  , function(c ) move_client_float(c , -moveStep , 0          ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Begin" , function(c) move_client_edge(c , "CENTERCENTER" )  end  )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Right" , function(c ) move_client_float(c , moveStep  , 0          ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Home"  , function(c ) move_client_float(c , -moveStep , -moveStep ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Up"    , function(c ) move_client_float(c , 0          , -moveStep ) end )  , 
+    awful.key({ modkey , "Mod1" } , "KP_Prior" , function(c ) move_client_float(c , moveStep  , -moveStep ) end )  , 
     
     awful.key({ "Control","Shift" } , "KP_Multiply", function ()  awful.util.spawn("transset-df -p --inc 0.1") end),
     awful.key({ "Control","Shift" } , "KP_Divide", function ()  awful.util.spawn("transset-df -p --dec 0.1") end),
@@ -155,15 +155,15 @@ clientkeys = awful.util.table.join(clientkeys,
     
 	-- move floating windows to screen edges
 
-    awful.key({ modkey , "Shift" } , "KP_End"   , function(c) move_client_edge(c , "BOTTOMLEFT"   )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Down"  , function(c) move_client_edge(c , "BOTTOMCENTER" )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Next"  , function(c) move_client_edge(c , "BOTTOMRIGHT"  )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Left"  , function(c) move_client_edge(c , "CENTERLEFT"   )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Begin" , function(c) move_client_edge(c , "CENTERCENTER" )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Right" , function(c) move_client_edge(c , "CENTERRIGHT"  )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Home"  , function(c) move_client_edge(c , "TOPLEFT"      )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Up"    , function(c) move_client_edge(c , "TOPCENTER"    )  end  )  , 
-    awful.key({ modkey , "Shift" } , "KP_Prior" , function(c) move_client_edge(c , "TOPRIGHT"     )  end  ) 
+    awful.key({ modkey } , "KP_End"   , function(c) move_client_edge(c , "BOTTOMLEFT"   )  end  )  , 
+    awful.key({ modkey } , "KP_Down"  , function(c) move_client_edge(c , "BOTTOMCENTER" )  end  )  , 
+    awful.key({ modkey } , "KP_Next"  , function(c) move_client_edge(c , "BOTTOMRIGHT"  )  end  )  , 
+    awful.key({ modkey } , "KP_Left"  , function(c) move_client_edge(c , "CENTERLEFT"   )  end  )  , 
+    awful.key({ modkey } , "KP_Begin" , function(c) move_client_edge(c , "CENTERCENTER" )  end  )  , 
+    awful.key({ modkey } , "KP_Right" , function(c) move_client_edge(c , "CENTERRIGHT"  )  end  )  , 
+    awful.key({ modkey } , "KP_Home"  , function(c) move_client_edge(c , "TOPLEFT"      )  end  )  , 
+    awful.key({ modkey } , "KP_Up"    , function(c) move_client_edge(c , "TOPCENTER"    )  end  )  , 
+    awful.key({ modkey } , "KP_Prior" , function(c) move_client_edge(c , "TOPRIGHT"     )  end  ) 
 
 
 

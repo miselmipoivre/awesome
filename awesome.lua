@@ -17,8 +17,8 @@ require("rodentbane")
 -- Themes define colours, icons, and wallpapers
 --beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 --beautiful.init("/usr/share/awesome/themes/sky-grey/theme.lua")
-beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
---beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+--beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
+beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 --beautiful.init( os.getenv("HOME").."/.config/awesome/themes/grey/theme.lua" )
 
@@ -135,6 +135,9 @@ mysystray = widget({ type = "systray" })
 
 -- {{{ -- VOLUME
 --pb_volume = volume.init()
+ 
+--{{{ -- DATE widget
+mytextbox = widget({type="textbox", align = 'right' })
 
 --[[
  {{{ -- DATE widget
@@ -250,6 +253,7 @@ for s = 1, screen.count() do
         --cpuwidget,
         --memwidget,
         --datewidget,
+        mytextbox,
         mytextclock,
         --pb_volume,
         s == 1 and mysystray or nil,
@@ -391,6 +395,7 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
+    awful.key({ modkey, "Mod1","Control" }, "r", awesome.restart),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)    end),
@@ -417,6 +422,16 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
+    
+    awful.key({ modkey,"Mod1","Control"          }, "t",    function (c)
+        if c.titlebar == nil then
+            awful.titlebar.add(c, { modkey = modkey })
+        else
+            c.titlebar = nil
+        end
+        --cc.ontop = not c.ontop
+    end),
+    
     awful.key({ modkey,          }, "Prior",    function (c) c.ontop = not c.ontop end),
     awful.key({ modkey,          }, "Next",     function (c) c.minimized = not c.minimized end),
     awful.key({ modkey,          }, "Home",     function (c) c.sticky=not c.sticky            end),
@@ -490,15 +505,15 @@ clientbuttons = awful.util.table.join(
 
     -- bouton dessus  1,2,3  molette: 4,5 14,13 bouton cote: 9,8
     --awful.button({ "Mod1"            } , 2, function ()  awful.util.spawn("audacious2 --play-pause") end),
-    awful.button({ "Mod1"            } , 8, function ()  awful.util.spawn("audacious2 --play-pause") end),
-    awful.button({ "Mod1"            } , 9, function ()  awful.util.spawn("audacious2 --play-pause") end),
-    awful.button({ "Mod1"            } , 6, function ()  awful.util.spawn("audacious2 --rew") end),
-    awful.button({ "Mod1"            } , 7, function ()  awful.util.spawn("audacious2 --fwd") end),
+    awful.button({ modkey            } , 8, function ()  awful.util.spawn("audacious2 --play-pause") end),
+    awful.button({ modkey            } , 9, function ()  awful.util.spawn("audacious2 --play-pause") end),
+    awful.button({ modkey            } , 6, function ()  awful.util.spawn("audacious2 --rew") end),
+    awful.button({ modkey            } , 7, function ()  awful.util.spawn("audacious2 --fwd") end),
 
-    awful.button({ "Mod1"            } , 4, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu up") end),
-    awful.button({ "Mod1"            } , 5, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu down") end),
-    awful.button({ "Mod1","Control"  } , 4, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu up 3") end),
-    awful.button({ "Mod1","Control"  } , 5, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu down 3") end),
+    awful.button({ modkey            } , 4, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu up") end),
+    awful.button({ modkey            } , 5, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu down") end),
+    awful.button({ modkey,"Control"  } , 4, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu up 3") end),
+    awful.button({ modkey,"Control"  } , 5, function ()  awful.util.spawn("/home/misel/Scripts/openbox/oss-menu down 3") end),
     
     awful.button({ "Control","Shift" } , 4, function ()  awful.util.spawn("transset-df -p --inc 0.05") end),
     awful.button({ "Control","Shift" } , 5, function ()  awful.util.spawn("transset-df -p --dec 0.05") end)
@@ -528,7 +543,7 @@ awful.rules.rules = {
     -- All clients will match this rule.
     { rule = { },
       properties = { --border_width = beautiful.border_width,
-                     border_width = 20,
+                     border_width = 1,
                      border_color = beautiful.border_normal,
                      focus = true,
                      switchtotag = true,
@@ -541,16 +556,16 @@ awful.rules.rules = {
     { rule = { class = "pinentry"                   }, properties = { floating = true } },
     { rule = { class = "gimp"                       }, properties = { floating = true } },
     --{ rule = { class = "Pidgin"                     }, properties = { tag = tags[1][2], floating = true, switchtotag = true, callback = awful.placement.centered } },
-    { rule = { class = "Pidgin"                     }, properties = { tag = tags[tag1][2], sticky = true, floating = true, switchtotag = true } },
+    { rule = { class = "Pidgin"                     }, properties = { tag = tags[tag1][2], floating = true, sticky = false } },
     -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "Audacious"                  }, properties = { tag = tags[tag1][3], switchtotag = true, border_width=0 }  }, 
+    { rule = { class = "Audacious"                  }, properties = { tag = tags[tag1][3], border_width=0 }  }, 
     { rule = { name  = "spotify.exe"                }, properties = { tag = tags[tag1][3] }  }, 
     { rule = { class = "Terminator"                 }, properties = { floating = true , callback = awful.placement.centered  }  }, 
-    { rule = { class = "Thunderbird"                }, properties = { tag = tags[tag1][2], switchtotag = true, floating = true } }, 
+    { rule = { class = "Thunderbird"                }, properties = { tag = tags[tag1][2], floating = true } }, 
 
     { rule = { class = "Firefox"                    }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "GNU IceCat"                 }, properties = { tag = tags[tag2][1] } }, 
-    { rule = { class = "Chrome"                     }, properties = { tag = tags[tag2][1] } }, 
+    { rule = { class = "Chrome"                     }, properties = { tag = tags[tag2][1] , border_width = 0, fullscreen } }, 
     { rule = { class = "Opera"                      }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "Midori"                     }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "Epiphany"                   }, properties = { tag = tags[tag2][1] } }, 
@@ -561,8 +576,8 @@ awful.rules.rules = {
     --{ rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=100,y=100,width=400,height=200} } }, 
     { rule = { class = "Conky"                      }, properties = { opacity = 0.8 } }, 
 
-    { rule = { class = "Basket"                     }, properties = { tag = tags[tag1][4], switchtotag = true } }, 
-    { rule = { class = "oracle-ide-boot-Launcher"   }, properties = { tag = tags[tag1][2], switchtotag = true } },
+    { rule = { class = "Basket"                     }, properties = { tag = tags[tag1][4] } }, 
+    { rule = { class = "oracle-ide-boot-Launcher"   }, properties = { tag = tags[tag1][2] } },
 
     --{ rule = { class ~= "oracle"                    }, properties = { tag = tags[tag2][2] } }, 
             
@@ -636,25 +651,29 @@ local function blackBorderClient(c,black)
     --if floats(c) then
     --    c.border_color = '#FFFF00'
     --else
+
+    --local l = awful.layout.get(c.screen)
+    --local w = screen[c.screen].workarea
+    
     if not floats(c) then
         --c.border_color = '#FF0000'
         if 1 == black then
-            c.opacity = 0.9
+            c.opacity = 0.95
             c.border_color = '#CC0000'
         else
-            c.opacity = 0.4
+            c.opacity = 0.75
             c.border_color = '#000000'
         end
-        if c.border_width > 0 then
-            c.border_width = 30 
+        if c.border_width > 1 then
+            c.border_width = 15 
         end
     else
         c.opacity = 1
-        if c.border_width > 0 then
-            c.border_width = 20 
+        if c.border_width > 1 then
+            c.border_width = 15 
         end
     end
-    --mouse_warp(c)
+    mouse_warp(c)
     --c.opacity = 0.4
 end
 
@@ -709,7 +728,7 @@ function ()
                              keychain_ctrl_f_remove() 
                          end  )
     )
-    root.keys(globalkeys)
+    root.keys(globalkeys)
 end)
  
 table.insert(keybind_ctrl_f,
@@ -733,4 +752,45 @@ root.keys(globalkeys)
 ]]--
 
 require("autorun")
+require("keybind")
+
+
+globalkeys = awful.util.table.join(globalkeys,
+
+        --[[
+        awful.key({ modkey }, "h", function (c)
+        --awful.util.spawn("gedit")
+        mytextbox.text='bee'
+        --keybind.push_client( {
+        keybind.push( {
+            keybind.key({}, "h", "Test action", function(c)
+                --awful.util.spawn("geany")
+                mytextbox.text='bleeh'
+                --keybind.pop_client(c)
+                --keybind.pop()
+            end)
+        },'test' .. c.name .. 'settings', c)
+        end)aaaaa
+        ]]--
+        
+	awful.key({ modkey   }, "h", function () 
+        
+        mytextbox.text='Nothing'
+
+		keybind.push({
+			keybind.key({modkey}, "a", "Cancel", function () 
+                mytextbox.text='B'
+				keybind.pop() 
+			end),
+
+			keybind.key({modkey}, "b", "Cancel", function () 
+                mytextbox.text='C'
+				keybind.pop() 
+			end)
+
+        }, "Tags action") 
+    end)
+
+)
+root.keys(globalkeys)
 

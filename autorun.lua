@@ -13,25 +13,27 @@ end
 autorun = true
 autorunApps = 
 { 
+    --{"wbar -vbar -filter 0 -bpress -fc 0xffdb1212 -nanim 3", 5} , 
     {"xterm -e wmname LG3D"                                , 5} , 
-    {"random_background"                                   , 2} , 
-    --{"xcompmgr"                                          , 0} , 
+    {"xcompmgr -n"                                , 5} , 
     --{"xcompmgr -cCfF -t-5 -l-5 -r0 -o.5 -D6"               , 2} , 
-    {"xcompmgr -n"                                          , 2} , 
+    {"random_background"                                   , 2} , 
     {"audacious2"                                          , 0} , 
     --{"~/.config/openbox/autostart.sh"                    , 0} , 
     --{"conky -b -c /home/misel/Scripts/conky/brenden.conky" , 5} , 
     {"numlockx"                                            , 0} , 
-    {"alunn"                                               , 0} , 
+    --{"alunn"                                               , 0} , 
     {"parcellite"                                          , 0} , 
     {"pidgin"                                              , 0} , 
     {"idesk"                                               , 0} , 
     --{"basket"                                              , 0} , 
     --{"pcmanfm"                                              , 0} , 
     {"gvim"                                                , 0} , 
-    {"thunderbird"                                         , 0} , 
+    {"thunderbird"                                         , 4} , 
+    --{"chrome"                                              , 0} , 
+    {"iron"                                              , 0} , 
     --{"midori"                                              , 0} , 
-    {"arora"                                               , 0} , 
+    --{"arora"                                               , 0} , 
 }
 if autorun then
    for app = 1, #autorunApps do
