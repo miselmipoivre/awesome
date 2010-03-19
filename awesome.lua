@@ -273,7 +273,9 @@ root.buttons(awful.util.table.join(
 
 -- {{{ Key bindings
 globalkeys = awful.util.table.join(
+    
     awful.key({ modkey,"Mod1","Control"           }, "m",  function()  rodentbane.start() end  ),
+
     
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -388,7 +390,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey }, "F2", function () awful.util.spawn("gnome-do") end),
     awful.key({ "Mod1",          }, "F2", function () awful.util.spawn("gmrun") end),
     --awful.key({ "Mod1",          }, "F2", function () teardrop("gmrun") end),
-    awful.key({ "Mod1","Control" }, "l", function () awful.util.spawn("xlock") end),
+    --awful.key({ "Mod1","Control" }, "l", function () awful.util.spawn("xlock") end),
+    awful.key({ "Mod1","Control" }, "l",  function()  awful.util.spawn('xscreensaver-command -activate') end  ),
     awful.key({ modkey,"Mod1","Control"}, "End", function () awful.util.spawn("xkill") end),
 
 
@@ -684,113 +687,124 @@ client.add_signal("unfocus", function(c) blackBorderClient(c,0) end)
 --client.add_signal("unfocus", function(c) c.opacity = 0.4 end)
 
 
+require("revelation")
+
+globalkeys = awful.util.table.join(globalkeys,
+
+	awful.key({ modkey},'Pause' , revelation.revelation )
+)
+
+
+
+require("autorun")
+require("keybind")
+--require("myshifty")
+
+
 
 -- {{{ Key Chaining
 --
 --
 --[[
 
-keybind_ctrl_f = {} 
-  
- function keychain_ctrl_f_add() 
-     for k, v in pairs(keybind_ctrl_f) do 
-         v:add() 
-     end 
- end 
- 
- function keychain_ctrl_f_remove() 
-     for k, v in pairs(keybind_ctrl_f) do 
-         v:remove() 
-     end 
- end 
- table.insert(keybind_ctrl_f, keybinding({}, "a", function () 
-     awful.util.spawn("terminator")
-     --mytextbox.text = "Vous avez appuyé sur A !"
-     keychain_ctrl_f_remove() 
- end)) 
- 
- table.insert(keybind_ctrl_f, keybinding({}, "b", function () 
-     awful.util.spawn("terminator")
-     --mytextbox.text = "Vous avez appuyé sur Super + B !"
-     keychain_ctrl_f_remove() 
- end)) 
- table.insert(keybind_ctrl_f, keybinding({}, "Escape", keychain_ctrl_f_remove))
- keybinding({ "Control" }, "f", keychain_ctrl_f_add):add()
+keybindActivate = true
+keybindsArrayList={
+    { 
+        { {modkey}, "x", "killall xcompmgr"},
+        { {modkey}, "l", "killall lxpanel"},
+        { {modkey}, "f", "killall firefox"},
+        { {modkey}, "t", "killall thunderbird"},
+        { {modkey}, "p", "killall pcmanfm"},
+    },
+    { 
+        { {modkey}, "x", "xcompmgr"},
+        { {modkey}, "l", "lxpanel"},
+        { {modkey}, "f", "firefox"},
+        { {modkey}, "t", "thunderbird"},
+        { {modkey}, "p", "pcmanfm"},
+    }
+}
 
+keybindsArray = {  }
+keybindsKey = {"k","e" }
 
-table.insert(keybind_ctrl_f,
-function ()
-    globalkeys = awful.util.table.join(   globalkeys,
-        awful.key({}, "a",   function () 
-                             awful.util.spawn("terminator")
-                             --awful.util.spawn("transset-df -p --inc 0.3")
-                             --mytextbox.text = "Vous avez appuyé sur A !"
-                             keychain_ctrl_f_remove() 
-                         end  )
-    )
-    root.keys(globalkeys)
-end)
- 
-table.insert(keybind_ctrl_f,
-function ()
-    globalkeys = awful.util.table.join(   globalkeys,
-        awful.key({}, "b",   function () 
-                             awful.util.spawn("terminator")
-                             --awful.util.spawn("transset-df -p --dec 0.3")
-                             --mytextbox.text = "Vous avez appuyé sur B !"
-                             keychain_ctrl_f_remove() 
-                         end  )
-    )
-    root.keys(globalkeys)
-end) 
+if keybindActivate then
 
+for n = 1, #keybindsArrayList do
+   keybinds = keybindsArrayList[n] 
+   for k = 1, #keybinds do
+       tmp =  keybinds[k]
+       keybindsArray[n] = awful.util.table.join(keybindsArray[n],
 
-globalkeys = awful.util.table.join(globalkeys,
-    awful.key({ "Control"           }, "f",  keychain_ctrl_f_add  )
-)
-root.keys(globalkeys)
+            {
+                myrc.keybind.key( tmp[1], tmp[2] , tmp[3], function () 
+                    awful.util.spawn( tmp[3] )
+                    myrc.keybind.pop() 
+                end)
+            }
+        ) 
+    --globalkeys = awful.util.table.join(globalkeys,	awful.key({ modkey   }, keybindsKey[n], function () 
+    --    myrc.keybind.push( 
+    --        
+    --            myrc.keybind.key( tmp[1], tmp[2] , tmp[3], function () 
+    --                awful.util.spawn( tmp[3] )
+    --                myrc.keybind.pop() 
+    --            end)
+    --        
+    --    , "Killall action") 
+    --end))
+
+   end
+    keybindsArray[n] = awful.util.table.join(keybindsArray[n],{
+                myrc.keybind.key( {}, "Escape", "Escape", function () 
+                    myrc.keybind.pop() 
+                end)
+    })
+
+end
+
+end
+
+globalkeys = awful.util.table.join(globalkeys,	awful.key({ modkey   }, "k", function () 
+        myrc.keybind.push( keybindsArray[1] , "Killall action") 
+    end))
+globalkeys = awful.util.table.join(globalkeys,	awful.key({ modkey   }, "e", function () 
+        myrc.keybind.push( keybindsArray[2] , "Execute action") 
+    end))
+
 ]]--
-
-require("autorun")
-require("keybind")
-
-
+--
 globalkeys = awful.util.table.join(globalkeys,
 
-        --[[
-        awful.key({ modkey }, "h", function (c)
-        --awful.util.spawn("gedit")
-        mytextbox.text='bee'
-        --keybind.push_client( {
-        keybind.push( {
-            keybind.key({}, "h", "Test action", function(c)
-                --awful.util.spawn("geany")
-                mytextbox.text='bleeh'
-                --keybind.pop_client(c)
-                --keybind.pop()
-            end)
-        },'test' .. c.name .. 'settings', c)
-        end)aaaaa
-        ]]--
-        
-	awful.key({ modkey   }, "h", function () 
-        
-        mytextbox.text='Nothing'
+	awful.key({ modkey   }, "k", function () 
+        myrc.keybind.push({
+                myrc.keybind.key( {} , "x" , "killall xcompmgr"    , function () awful.util.spawn( "killall xcompmgr" ) myrc.keybind.pop() end) , 
+                myrc.keybind.key( {} , "l" , "killall lxpanel"     , function () awful.util.spawn( "killall lxpanel" ) myrc.keybind.pop() end)  , 
+                myrc.keybind.key( {} , "f" , "killall firefox"     , function () awful.util.spawn( "killall firefox" ) myrc.keybind.pop() end)  , 
+                myrc.keybind.key( {} , "t" , "killall thunderbird" , function () awful.util.spawn( "killall thunderbird" ) myrc.keybind.pop() end)  , 
+                myrc.keybind.key( {} , "p" , "killall pcmanfm"     , function () awful.util.spawn( "killall pcmanfm" ) myrc.keybind.pop() end)  , 
 
-		keybind.push({
-			keybind.key({modkey}, "a", "Cancel", function () 
-                mytextbox.text='B'
-				keybind.pop() 
-			end),
+                myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
+            } , "Killall action") 
+    end)
+    ,
+	awful.key({ modkey   }, "e", function () 
+        myrc.keybind.push({
+                myrc.keybind.key( {} , "x" , "xcompmgr -n" , function () awful.util.spawn( "xcompmgr -n" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "l" , "lxpanel"     , function () awful.util.spawn( "lxpanel" ) myrc.keybind.pop() end)     , 
+                myrc.keybind.key( {} , "f" , "firefox"     , function () awful.util.spawn( "firefox" ) myrc.keybind.pop() end)     , 
+                myrc.keybind.key( {} , "i" , "iron"        , function () awful.util.spawn( "iron" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "t" , "thunderbird" , function () awful.util.spawn( "thunderbird" ) myrc.keybind.pop() end) , 
+                myrc.keybind.key( {} , "p" , "pcmanfm"     , function () awful.util.spawn( "pcmanfm" ) myrc.keybind.pop() end)     , 
+                myrc.keybind.key( {} , "g" , "gvim"        , function () awful.util.spawn( "gvim" ) myrc.keybind.pop() end)        , 
 
-			keybind.key({modkey}, "b", "Cancel", function () 
-                mytextbox.text='C'
-				keybind.pop() 
-			end)
-
-        }, "Tags action") 
+                myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
+            } , "Killall action") 
     end)
 
+    
 )
+
+
 root.keys(globalkeys)
 
