@@ -78,7 +78,7 @@ settings.window_d=1
 
 tag1 = 1 
 tag2 = 1
-tags[tag1] = awful.tag({ "1.Edit", "2.Mail", "3.Music", "4.Files", "5.Terms", 6, 7, 8, 9 ,""}, tag1, awful.layout.suit.floating)
+tags[tag1] = awful.tag({ "1.Edit", "2.Mail", "3.Music", "4.Files", "5.Terms", 6, 7, 8, 9 ,""}, tag1, awful.layout.suit.tile)
 if screen.count() == 2 then
     tag2 = 2
     tags[tag2] = awful.tag({ "www", 2, 3, 4, 5, 6, 7, 8, 9 ,""}, tag2, awful.layout.suit.floating)
@@ -563,7 +563,7 @@ awful.rules.rules = {
     -- Set Firefox to always map on tags number 2 of screen 1.
     { rule = { class = "Audacious"                  }, properties = { tag = tags[tag1][3], border_width=0 }  }, 
     { rule = { name  = "spotify.exe"                }, properties = { tag = tags[tag1][3] }  }, 
-    { rule = { class = "Terminator"                 }, properties = { floating = true , callback = awful.placement.centered  }  }, 
+    --{ rule = { class = "Terminator"                 }, properties = { floating = true , callback = awful.placement.centered  }  }, 
     { rule = { class = "Thunderbird"                }, properties = { tag = tags[tag1][2], floating = true } }, 
 
     { rule = { class = "Firefox"                    }, properties = { tag = tags[tag2][1] } }, 
@@ -575,7 +575,7 @@ awful.rules.rules = {
     -- tag 3 WWW perso
     { rule = { class = "Arora"                      }, properties = { tag = tags[tag2][3] } }, 
     { rule = { class = "Pcmanfm"                    }, properties = { tag = tags[tag1][4], opacity = 0.9 } }, 
-    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=100,height=300} } }, 
+    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=300,height=200} } }, 
     --{ rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=100,y=100,width=400,height=200} } }, 
     { rule = { class = "Conky"                      }, properties = { opacity = 0.8 } }, 
 
@@ -661,17 +661,17 @@ local function blackBorderClient(c,black)
     if not floats(c) then
         --c.border_color = '#FF0000'
         if 1 == black then
-            c.opacity = 0.95
+            --c.opacity = 0.95
             c.border_color = '#CC0000'
         else
-            c.opacity = 0.75
+            --c.opacity = 0.75
             c.border_color = '#000000'
         end
         if c.border_width > 1 then
             c.border_width = 15 
         end
     else
-        c.opacity = 1
+        --c.opacity = 1
         if c.border_width > 1 then
             c.border_width = 15 
         end
@@ -799,7 +799,19 @@ globalkeys = awful.util.table.join(globalkeys,
                 myrc.keybind.key( {} , "g" , "gvim"        , function () awful.util.spawn( "gvim" ) myrc.keybind.pop() end)        , 
 
                 myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
-            } , "Killall action") 
+            } , "Killall action")   
+    end)    ,
+	awful.key({ modkey,"Control", "Mod1"  }, "l", function () 
+        myrc.keybind.push({
+                myrc.keybind.key( {} , "s" , "lightstart"       , function () awful.util.spawn_with_shell( "lightstart" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "t" , "lightstop"        , function () awful.util.spawn_with_shell( "lightstop" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "r" , "lightrestart"     , function () awful.util.spawn_with_shell( "lightrestart" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "a" , "read lightaccess" , function () awful.util.spawn_with_shell( "xterm -e lightaccess" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "e" , "read lighterror"  , function () awful.util.spawn_with_shell( "xterm -e lighterror" ) myrc.keybind.pop() end)    , 
+
+
+                myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
+            } , "lighty action") 
     end)
 
     
