@@ -46,12 +46,12 @@ layouts =
     --awful.layout.suit.tile.left,
     --awful.layout.suit.tile.bottom,
     --awful.layout.suit.tile.top,
-    --awful.layout.suit.fair,
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
+    awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
+    --awful.layout.suit.max.fullscreen,
     awful.layout.suit.magnifier,
     awful.layout.suit.floating
 }
@@ -778,11 +778,18 @@ globalkeys = awful.util.table.join(globalkeys,
 
 	awful.key({ modkey   }, "k", function () 
         myrc.keybind.push({
-                myrc.keybind.key( {} , "x" , "killall xcompmgr"    , function () awful.util.spawn( "killall xcompmgr" ) myrc.keybind.pop() end) , 
-                myrc.keybind.key( {} , "l" , "killall lxpanel"     , function () awful.util.spawn( "killall lxpanel" ) myrc.keybind.pop() end)  , 
-                myrc.keybind.key( {} , "f" , "killall firefox"     , function () awful.util.spawn( "killall firefox" ) myrc.keybind.pop() end)  , 
-                myrc.keybind.key( {} , "t" , "killall thunderbird" , function () awful.util.spawn( "killall thunderbird" ) myrc.keybind.pop() end)  , 
-                myrc.keybind.key( {} , "p" , "killall pcmanfm"     , function () awful.util.spawn( "killall pcmanfm" ) myrc.keybind.pop() end)  , 
+                myrc.keybind.key( {} , "x" , "killall xcompmgr -n" , function () awful.util.spawn( "killall xcompmgr -n" ) myrc.keybind.pop() end)    , 
+                --myrc.keybind.key( {} , "l" , "killall lxpanel"     , function () awful.util.spawn( "killall lxpanel" ) myrc.keybind.pop() end)     , 
+                myrc.keybind.key( {} , "f" , "killall firefox"     , function () awful.util.spawn( "killall firefox" ) myrc.keybind.pop() end)     , 
+                --myrc.keybind.key( {} , "f" , "killall icecat"      , function () awful.util.spawn( "killall icecat" ) myrc.keybind.pop() end)     , 
+                myrc.keybind.key( {} , "i" , "killall iron"        , function () awful.util.spawn( "killall iron" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "c" , "killall chrome"      , function () awful.util.spawn( "killall chrome" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "t" , "killall thunderbird" , function () awful.util.spawn( "killall thunderbird" ) myrc.keybind.pop() end) , 
+                myrc.keybind.key( {} , "p" , "killall pcmanfm"     , function () awful.util.spawn( "killall pcmanfm" ) myrc.keybind.pop() end)     , 
+                --myrc.keybind.key( {} , "p" , "killall pidgin"      , function () awful.util.spawn( "killall pidgin" ) myrc.keybind.pop() end)     , 
+                myrc.keybind.key( {} , "g" , "killall gvim"        , function () awful.util.spawn( "killall gvim" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "l" , "killall listen"      , function () awful.util.spawn( "killall listen" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "a" , "killall audacious"   , function () awful.util.spawn( "killall audacious" ) myrc.keybind.pop() end)        , 
 
                 myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
             } , "Killall action") 
@@ -791,12 +798,18 @@ globalkeys = awful.util.table.join(globalkeys,
 	awful.key({ modkey   }, "e", function () 
         myrc.keybind.push({
                 myrc.keybind.key( {} , "x" , "xcompmgr -n" , function () awful.util.spawn( "xcompmgr -n" ) myrc.keybind.pop() end)    , 
-                myrc.keybind.key( {} , "l" , "lxpanel"     , function () awful.util.spawn( "lxpanel" ) myrc.keybind.pop() end)     , 
+                --myrc.keybind.key( {} , "l" , "lxpanel"     , function () awful.util.spawn( "lxpanel" ) myrc.keybind.pop() end)     , 
                 myrc.keybind.key( {} , "f" , "firefox"     , function () awful.util.spawn( "firefox" ) myrc.keybind.pop() end)     , 
+                --myrc.keybind.key( {} , "f" , "icecat"     , function () awful.util.spawn( "icecat" ) myrc.keybind.pop() end)     , 
                 myrc.keybind.key( {} , "i" , "iron"        , function () awful.util.spawn( "iron" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "c" , "chrome"      , function () awful.util.spawn( "chrome" ) myrc.keybind.pop() end)        , 
                 myrc.keybind.key( {} , "t" , "thunderbird" , function () awful.util.spawn( "thunderbird" ) myrc.keybind.pop() end) , 
                 myrc.keybind.key( {} , "p" , "pcmanfm"     , function () awful.util.spawn( "pcmanfm" ) myrc.keybind.pop() end)     , 
+                --myrc.keybind.key( {} , "p" , "pidgin"     , function () awful.util.spawn( "pidgin" ) myrc.keybind.pop() end)     , 
                 myrc.keybind.key( {} , "g" , "gvim"        , function () awful.util.spawn( "gvim" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "l" , "listen"      , function () awful.util.spawn( "listen" ) myrc.keybind.pop() end)        , 
+                myrc.keybind.key( {} , "a" , "audacious"   , function () awful.util.spawn( "audacious" ) myrc.keybind.pop() end)        , 
+
 
                 myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
             } , "Killall action")   
@@ -808,6 +821,20 @@ globalkeys = awful.util.table.join(globalkeys,
                 myrc.keybind.key( {} , "r" , "lightrestart"     , function () awful.util.spawn_with_shell( "lightrestart" ) myrc.keybind.pop() end)    , 
                 myrc.keybind.key( {} , "a" , "read lightaccess" , function () awful.util.spawn_with_shell( "xterm -e lightaccess" ) myrc.keybind.pop() end)    , 
                 myrc.keybind.key( {} , "e" , "read lighterror"  , function () awful.util.spawn_with_shell( "xterm -e lighterror" ) myrc.keybind.pop() end)    , 
+
+                myrc.keybind.key( {} , "m" , "add meetic"      , function () awful.util.spawn_with_shell( "lighty_manager -a meetic.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "v" , "add meeticvip"   , function () awful.util.spawn_with_shell( "lighty_manager -a meeticvip.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "o" , "add meetic-obo"  , function () awful.util.spawn_with_shell( "lighty_manager -a meetic-obo.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "u" , "add ulteem"      , function () awful.util.spawn_with_shell( "lighty_manager -a ulteem.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "p" , "add paymentv4"   , function () awful.util.spawn_with_shell( "lighty_manager -a paymentv4.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {} , "l" , "add local"       , function () awful.util.spawn_with_shell( "lighty_manager -a local.conf" ) myrc.keybind.pop() end)    , 
+
+                myrc.keybind.key( {"Mod1"} , "m" , "del meetic"      , function () awful.util.spawn_with_shell( "lighty_manager -d meetic.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "v" , "del meeticvip"   , function () awful.util.spawn_with_shell( "lighty_manager -d meeticvip.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "o" , "del meetic-obo"  , function () awful.util.spawn_with_shell( "lighty_manager -d meetic-obo.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "u" , "del ulteem"      , function () awful.util.spawn_with_shell( "lighty_manager -d ulteem.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "p" , "del paymentv4"   , function () awful.util.spawn_with_shell( "lighty_manager -d paymentv4.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "l" , "del local"       , function () awful.util.spawn_with_shell( "lighty_manager -d local.conf" ) myrc.keybind.pop() end)    , 
 
 
                 myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
