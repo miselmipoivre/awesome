@@ -1,3 +1,6 @@
+--timing = {module_start=3,module_end=7}
+timing = {}
+timing.module_start = os.time()
 -- Standard awesome library
 require("awful")
 require("awful.autofocus")
@@ -11,14 +14,15 @@ require("naughty")
 require("volume")
 require("teardrop")
 require("rodentbane")
-
+timing.module_end = os.time()
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, and wallpapers
---beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 --beautiful.init("/usr/share/awesome/themes/sky-grey/theme.lua")
 --beautiful.init("/usr/share/awesome/themes/sky/theme.lua")
-beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+--beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
+--beautiful.init("/usr/share/awesome/themes/lunar/theme.lua")
 
 --beautiful.init( os.getenv("HOME").."/.config/awesome/themes/grey/theme.lua" )
 
@@ -554,6 +558,7 @@ awful.rules.rules = {
                      -- screen, tag, float, geometry, slave, nopopup, nofocus, intrusive, fullscreen, honorsizehints, kill
                      -- ontop, below, above, buttons, keys, hide, minimized, dockable, urgent, opacity, titlebar, run, sticky, wfact, struts.
                      buttons = clientbuttons } },
+
     { rule = { class = "MPlayer"                    }, properties = { floating = true } },
     { rule = { class = "Xev"                        }, properties = { floating = true } },
     { rule = { class = "pinentry"                   }, properties = { floating = true } },
@@ -564,7 +569,7 @@ awful.rules.rules = {
     { rule = { class = "Audacious"                  }, properties = { tag = tags[tag1][3], border_width=0 }  }, 
     { rule = { name  = "spotify.exe"                }, properties = { tag = tags[tag1][3] }  }, 
     --{ rule = { class = "Terminator"                 }, properties = { floating = true , callback = awful.placement.centered  }  }, 
-    { rule = { class = "Thunderbird"                }, properties = { tag = tags[tag1][2], floating = true } }, 
+    { rule = { class = "Thunderbird"                }, properties = { tag = tags[tag1][2] } }, 
 
     { rule = { class = "Firefox"                    }, properties = { tag = tags[tag2][1] } }, 
     { rule = { class = "GNU IceCat"                 }, properties = { tag = tags[tag2][1] } }, 
@@ -575,7 +580,7 @@ awful.rules.rules = {
     -- tag 3 WWW perso
     { rule = { class = "Arora"                      }, properties = { tag = tags[tag2][3] } }, 
     { rule = { class = "Pcmanfm"                    }, properties = { tag = tags[tag1][4], opacity = 0.9 } }, 
-    { rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=nil,y=nil,width=300,height=200} } }, 
+    { rule = { class = "Terminator"                 }, properties = { border_width=0, geometry={x=nil,y=nil,width=300,height=200} } }, 
     --{ rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=100,y=100,width=400,height=200} } }, 
     { rule = { class = "Conky"                      }, properties = { opacity = 0.8 } }, 
 
@@ -846,4 +851,6 @@ globalkeys = awful.util.table.join(globalkeys,
 
 
 root.keys(globalkeys)
+naughty.notify({ title = "Achtung!", text = "" .. (timing.module_end - timing.module_start)
+, timeout = 0 })
 
