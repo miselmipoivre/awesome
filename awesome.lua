@@ -376,6 +376,10 @@ globalkeys = awful.util.table.join(
     
     awful.key({ modkey , "Mod1"     }, "Right" , function () awful.client.swap.byidx(  1)    end) , 
     awful.key({ modkey , "Mod1"     }, "Left"  , function () awful.client.swap.byidx( -1)    end) , 
+
+    awful.key({ modkey              }, "²"    , function () awful.screen.focus_relative( 1) end) , 
+    awful.key({ modkey , "Shift"    }, "²"    , function () awful.screen.focus_relative( -1) end) , 
+
     awful.key({ modkey              }, "Up"    , function () awful.screen.focus_relative( 1) end) , 
     awful.key({ modkey ,            }, "Down"  , function () awful.screen.focus_relative(-1) end) , 
 
@@ -781,7 +785,19 @@ globalkeys = awful.util.table.join(globalkeys,	awful.key({ modkey   }, "e", func
 --
 globalkeys = awful.util.table.join(globalkeys,
 
-	awful.key({ modkey   }, "k", function () 
+	awful.key({ modkey   }, "i", function () 
+        myrc.keybind.push({
+                myrc.keybind.key( {} , "k" , " + Super + Control         = killall" , function () awful.util.spawn( "xdotool key super+ctrl+k" ) myrc.keybind.pop()end)    , 
+                myrc.keybind.key( {} , "e" , " + Super                   = execute" , function () awful.util.spawn( "xdotool key super+e" ) myrc.keybind.pop()end)    , 
+                --myrc.keybind.key( {} , "l" , " + Super + Control + Shift = lighttpd" , function () awful.util.spawn_with_shell( "xdotool key Super_L+ctrl+shift+l" ) myrc.keybind.pop()end)    , 
+                myrc.keybind.key( {} , "l" , " + Super + Control + Shift = lighttpd" , function () awful.util.spawn( "xdotool key super+ctrl+alt+l" ) myrc.keybind.pop()end)    , 
+                
+				myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
+
+            } , "help action") 
+    end)
+    ,
+	awful.key({ modkey,'Control'   }, "k", function () 
         myrc.keybind.push({
                 myrc.keybind.key( {} , "x" , "killall xcompmgr -n" , function () awful.util.spawn( "killall xcompmgr -n" ) myrc.keybind.pop() end)    , 
                 --myrc.keybind.key( {} , "l" , "killall lxpanel"     , function () awful.util.spawn( "killall lxpanel" ) myrc.keybind.pop() end)     , 
@@ -817,7 +833,7 @@ globalkeys = awful.util.table.join(globalkeys,
 
 
                 myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
-            } , "Killall action")   
+            } , "Execute action")   
     end)    ,
 	awful.key({ modkey,"Control", "Mod1"  }, "l", function () 
         myrc.keybind.push({

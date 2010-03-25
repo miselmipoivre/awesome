@@ -14,13 +14,15 @@ autorun = true
 autorunApps = 
 { 
     --{"wbar -vbar -filter 0 -bpress -fc 0xffdb1212 -nanim 3", 5} , 
+    {"xset m 3 1"                                , 5} , -- set mouse speed ex: m xset m 5/2 http://linuxreviews.org/howtos/xfree/mouse_speed_in_x/
+    --{"xset m default"                                , 5} , -- set mouse speed ex: m xset m 5/2 http://linuxreviews.org/howtos/xfree/mouse_speed_in_x/
     {"xterm -e wmname LG3D"                                , 5} , 
     {"xcompmgr -n"                                , 5} , 
     --{"xcompmgr -cCfF -t-5 -l-5 -r0 -o.5 -D6"               , 2} , 
     {"random_background"                                   , 2} , 
     --{"audacious2"                                          , 0} , 
     --{"~/.config/openbox/autostart.sh"                    , 0} , 
-    --{"conky -b -c /home/misel/Scripts/conky/brenden.conky" , 5} , 
+    --{"conky -b -c ~/Scripts/conky/brenden.conky" , 5} , 
     {"numlockx"                                            , 0} , 
     --{"alunn"                                               , 0} , 
     {"parcellite"                                          , 0} , 

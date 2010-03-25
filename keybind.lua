@@ -30,7 +30,7 @@ function push_(mytable, ftitle, setter, getter)
     for _, k in ipairs(mytable) do
 		newkeys = awful.util.table.join(newkeys, k.keys)
 		description = description .. "\n"
-		description = description ..  tostring(k.keysym) .. ": " ..  ( k.desc or "<no_description>" )
+		description = "<span font_desc='terminus 7'>"..description .."</span>"..  tostring(k.keysym) .. ": " ..  ( k.desc or "<no_description>" )
     end
 
 	local globalkeys = getter()
