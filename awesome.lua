@@ -28,7 +28,9 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 
 -- This is used later as the default terminal and editor to run.
-terminal = "terminator"
+--terminal = "terminator"
+--terminal = "urxvt"
+terminal = "urxvt-tabbed"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -377,8 +379,8 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey , "Mod1"     }, "Right" , function () awful.client.swap.byidx(  1)    end) , 
     awful.key({ modkey , "Mod1"     }, "Left"  , function () awful.client.swap.byidx( -1)    end) , 
 
-    awful.key({ modkey              }, "²"    , function () awful.screen.focus_relative( 1) end) , 
-    awful.key({ modkey , "Shift"    }, "²"    , function () awful.screen.focus_relative( -1) end) , 
+    awful.key({ modkey              }, "twosuperior"    , function () awful.screen.focus_relative( 1) end) , 
+    awful.key({ modkey , "Shift"    }, "twosuperior"    , function () awful.screen.focus_relative( -1) end) , 
 
     awful.key({ modkey              }, "Up"    , function () awful.screen.focus_relative( 1) end) , 
     awful.key({ modkey ,            }, "Down"  , function () awful.screen.focus_relative(-1) end) , 
@@ -585,6 +587,7 @@ awful.rules.rules = {
     { rule = { class = "Arora"                      }, properties = { tag = tags[tag2][3] } }, 
     { rule = { class = "Pcmanfm"                    }, properties = { tag = tags[tag1][4], opacity = 0.9 } }, 
     { rule = { class = "Terminator"                 }, properties = { border_width=0, geometry={x=nil,y=nil,width=300,height=200} } }, 
+    { rule = { class = "URxvt"                      }, properties = { border_width=0, geometry={x=nil,y=nil,width=300,height=200} } }, 
     --{ rule = { class = "Terminator"                 }, properties = { border_width=0, ontop =true, geometry={x=100,y=100,width=400,height=200} } }, 
     { rule = { class = "Conky"                      }, properties = { opacity = 0.8 } }, 
 
@@ -782,22 +785,42 @@ globalkeys = awful.util.table.join(globalkeys,	awful.key({ modkey   }, "e", func
     end))
 
 ]]--
---
-globalkeys = awful.util.table.join(globalkeys,
 
-	awful.key({ modkey   }, "i", function () 
+globalkeys = awful.util.table.join(globalkeys,
+	awful.key({ modkey   }, "t", function () 
         myrc.keybind.push({
-                myrc.keybind.key( {} , "k" , " + Super + Control         = killall" , function () awful.util.spawn( "xdotool key super+ctrl+k" ) myrc.keybind.pop()end)    , 
+				myrc.keybind.key( {}, "t", "test 1", function () 
+-- --[[
+                    myrc.keybind.push({
+                        myrc.keybind.key( {}, "t", "test 1", function () 
+
+                        myrc.keybind.pop() 
+                        end),
+
+                    } , "test1 action") 
+-- ]]--
+                    
+                myrc.keybind.pop() 
+                end),
+
+				myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
+
+            } , "test action") 
+    end)
+    ,
+    awful.key({ modkey   }, "i", function () 
+        myrc.keybind.push({
+                myrc.keybind.key( {} , "k" , " + Super + Control + Alt   = killall" , function () awful.util.spawn( "xdotool key super+ctrl+k" ) myrc.keybind.pop()end)    , 
                 myrc.keybind.key( {} , "e" , " + Super                   = execute" , function () awful.util.spawn( "xdotool key super+e" ) myrc.keybind.pop()end)    , 
                 --myrc.keybind.key( {} , "l" , " + Super + Control + Shift = lighttpd" , function () awful.util.spawn_with_shell( "xdotool key Super_L+ctrl+shift+l" ) myrc.keybind.pop()end)    , 
-                myrc.keybind.key( {} , "l" , " + Super + Control + Shift = lighttpd" , function () awful.util.spawn( "xdotool key super+ctrl+alt+l" ) myrc.keybind.pop()end)    , 
+                myrc.keybind.key( {} , "l" , " + Super + Control + Alt = lighttpd" , function () awful.util.spawn( "xdotool key super+ctrl+alt+l" ) myrc.keybind.pop()end)    , 
                 
 				myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
 
             } , "help action") 
     end)
     ,
-	awful.key({ modkey,'Control'   }, "k", function () 
+	awful.key({ modkey,"Control", "Mod1" }, "k", function () 
         myrc.keybind.push({
                 myrc.keybind.key( {} , "x" , "killall xcompmgr -n" , function () awful.util.spawn( "killall xcompmgr -n" ) myrc.keybind.pop() end)    , 
                 --myrc.keybind.key( {} , "l" , "killall lxpanel"     , function () awful.util.spawn( "killall lxpanel" ) myrc.keybind.pop() end)     , 
@@ -867,6 +890,6 @@ globalkeys = awful.util.table.join(globalkeys,
 
 
 root.keys(globalkeys)
-naughty.notify({ title = "Achtung!", text = "" .. (timing.module_end - timing.module_start)
+naughty.notify({ title = "<b>Achtung!</b>", text = "" .. (timing.module_end - timing.module_start)
 , timeout = 0 })
 
