@@ -1,0 +1,123 @@
+!URxvt.font:		xft:DejaVu Sans Mono:pixelsize=8
+!#URxvt*termName:		xterm-color
+!URxvt*transparent:true
+!URxvt*scrollBar:false
+!URxvt*geometry:124x24    #I don't use the whole screen, if you want a full screen term don't bother with this and see below.
+!URxvt*borderLess:true
+!URxvt*foreground:Black   #Font color. My wallpaper is White, you may wish to change this to White.
+
+! General
+!urxvt*termName:  rxvt-256color
+urxvt*loginShell:         true
+urxvt*scrollBar:         false
+urxvt*secondaryScroll:    true
+urxvt*saveLines:         65535
+urxvt*cursorBlink:       false
+urxvt*urgentOnBell:       true
+!urxvt*override-redirect:false
+!urxvt*borderLess:       false
+!urxvt*internalBorder:       0
+!urxvt*externalBorder:       0
+
+! Extensions
+urxvt*perl-lib:        /usr/lib/urxvt/perl/
+urxvt*perl-ext-common: default,matcher,searchable-scrollback
+urxvt*urlLauncher:     /usr/bin/firefox
+urxvt*matcher.button:  1
+!  - catch ugly URLs
+urxvt.cutchars:        `()'*<>[]{|}"
+
+! Appearance
+!  - use a bitmap font
+urxvt.font:		xft:DejaVu Sans Mono:pixelsize=9
+#urxvt*font:        -xos4-terminus-medium-*-*-*-12-*-*-*-*-*-*-*
+#urxvt*boldFont:    -xos4-terminus-bold-*-*-*-12-*-*-*-*-*-*-*
+!  - use xft for drawing fonts
+!urxvt*font:       xft:Terminus:8
+!  - cursor
+urxvt*cursorColor: #DCDCCC
+!  - pseudo transparency
+urxvt*shading:    50
+urxvt*transparent:true
+!
+!  - color scheme
+urxvt.background:  #000000
+urxvt.foreground:  #EBEBFF
+! black + red
+!urxvt*color0:     #3f3f3f
+urxvt*color0:      #000000
+urxvt*color1:      #e01010
+! green + yellow
+urxvt*color2:      #00AA00
+urxvt*color3:      #FFFF00
+! blue + purple
+urxvt*color4:      #112037
+urxvt*color5:      #A020F0
+! cyan + white
+urxvt*color6:      #5B5BC7
+urxvt*color7:      #fefefe
+! bright-black + bright-red
+urxvt*color8:      #6a6a6a
+urxvt*color9:      #FF5555
+! bright-green + bright-yellow
+urxvt*color10:     #90EE90
+urxvt*color11:     #ffff2f
+! bright-blue + bright-purple
+urxvt*color12:     #5B5BC7
+urxvt*color13:     #e628ba
+! bright-cyan + bright-white
+urxvt*color14:     #7D7DFB
+urxvt*color15:     #ffffff
+
+
+
+
+
+
+
+#URxvt*tintColor:	magenta
+#URxvt*highlightColor:   magenta
+
+
+xterm*scrollBar: false
+xterm*vt100.scrollBar: false
+xterm*vt100.font:		-*-lucida-*-*-*-*-*-*-*-*-*-*-*-*
+xterm*background: black
+xterm*foreground: white
+xterm*multiScroll: on
+xterm*jumpScroll: on
+xterm*SaveLines: 10000
+
+
+
+Terminator*transparent:true
+Terminator*scrollBar:false
+Terminator*geometry:124x24    #I don't use the whole screen, if you want a full screen term don't bother with this and see below.
+Terminator*borderLess:true
+Terminator*foreground:Black   #Font color. My wallpaper is White, you may wish to change this to White.
+
+
+# get list of do a :
+#find /usr/share/icons/ -name "X_cursor" | awk -F "/" '{print "#Xcursor.theme:"$5}'
+
+Xcursor.theme:Oxygen_White
+#Xcursor.theme:Oxygen_Zion_Big
+#Xcursor.theme:Oxygen_White_Big
+#Xcursor.theme:Oxygen_Yellow_Big
+#Xcursor.theme:Oxygen_Yellow
+#Xcursor.theme:Oxygen_Black_Big
+#Xcursor.theme:Oxygen_Black
+#Xcursor.theme:Oxygen_Blue_Big
+#Xcursor.theme:Oxygen_Zion
+#Xcursor.theme:Oxygen_Blue
+#Xcursor.theme:handhelds
+#Xcursor.theme:redglass
+#Xcursor.theme:whiteglass
+
+#Xcursor.theme:Polar
+#Xcursor.theme:Polar-Blue
+#Xcursor.theme:Polar-Green
+
+#Xcursor.size:2
+
+
