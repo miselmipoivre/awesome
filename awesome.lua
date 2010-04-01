@@ -710,8 +710,10 @@ globalkeys = awful.util.table.join(globalkeys,
 
 require("autorun")
 require("keybind")
+require("tagman")
 --require("myshifty")
 
+--myrc.tagman.init(myrc.memory.get("tagnames", "-", nil))
 
 
 -- {{{ Key Chaining
@@ -873,19 +875,75 @@ globalkeys = awful.util.table.join(globalkeys,
                 myrc.keybind.key( {} , "p" , "add paymentv4"   , function () awful.util.spawn_with_shell( "lighty_manager -a paymentv4.conf" ) myrc.keybind.pop() end)    , 
                 myrc.keybind.key( {} , "l" , "add local"       , function () awful.util.spawn_with_shell( "lighty_manager -a local.conf" ) myrc.keybind.pop() end)    , 
 
-                myrc.keybind.key( {"Mod1"} , "m" , "del meetic"      , function () awful.util.spawn_with_shell( "lighty_manager -d meetic.conf" ) myrc.keybind.pop() end)    , 
-                myrc.keybind.key( {"Mod1"} , "v" , "del meeticvip"   , function () awful.util.spawn_with_shell( "lighty_manager -d meeticvip.conf" ) myrc.keybind.pop() end)    , 
-                myrc.keybind.key( {"Mod1"} , "o" , "del meetic-obo"  , function () awful.util.spawn_with_shell( "lighty_manager -d meetic-obo.conf" ) myrc.keybind.pop() end)    , 
-                myrc.keybind.key( {"Mod1"} , "u" , "del ulteem"      , function () awful.util.spawn_with_shell( "lighty_manager -d ulteem.conf" ) myrc.keybind.pop() end)    , 
-                myrc.keybind.key( {"Mod1"} , "p" , "del paymentv4"   , function () awful.util.spawn_with_shell( "lighty_manager -d paymentv4.conf" ) myrc.keybind.pop() end)    , 
-                myrc.keybind.key( {"Mod1"} , "l" , "del local"       , function () awful.util.spawn_with_shell( "lighty_manager -d local.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "m" , "+ Super del meetic"      , function () awful.util.spawn_with_shell( "lighty_manager -d meetic.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "v" , "+ Super del meeticvip"   , function () awful.util.spawn_with_shell( "lighty_manager -d meeticvip.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "o" , "+ Super del meetic-obo"  , function () awful.util.spawn_with_shell( "lighty_manager -d meetic-obo.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "u" , "+ Super del ulteem"      , function () awful.util.spawn_with_shell( "lighty_manager -d ulteem.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "p" , "+ Super del paymentv4"   , function () awful.util.spawn_with_shell( "lighty_manager -d paymentv4.conf" ) myrc.keybind.pop() end)    , 
+                myrc.keybind.key( {"Mod1"} , "l" , "+ Super del local"       , function () awful.util.spawn_with_shell( "lighty_manager -d local.conf" ) myrc.keybind.pop() end)    , 
 
 
                 myrc.keybind.key( {}, "Escape", "Escape", function () myrc.keybind.pop() end),
             } , "lighty action") 
-    end)
+    end) ,
 
-    
+  	-- Tagset operations (Win+Ctrl+s,<letter> chords)
+	awful.key({ modkey, "Control","Mod1"   }, "t", function () 
+		myrc.keybind.push({
+			myrc.keybind.key({}, "Escape", "Cancel", function () 
+				myrc.keybind.pop() 
+			end),
+
+			myrc.keybind.key({}, "Return", "Cancel", function () 
+				myrc.keybind.pop() 
+			end),
+
+			myrc.keybind.key({}, "r", "Rename current tag", function () 
+				awful.prompt.run(
+				{ prompt = "Rename this tag: " }, 
+				mypromptbox[mouse.screen].widget, 
+				function(newname) 
+					myrc.tagman.rename(awful.tag.selected(),newname) 
+				end, 
+				awful.completion.bash,
+				awful.util.getdir("cache") .. "/tag_rename")
+				myrc.keybind.pop()
+			end),
+
+			myrc.keybind.key({}, "c", "Create new tag", function () 
+				awful.prompt.run(
+				{ prompt = "Create new tag: " }, 
+				mypromptbox[mouse.screen].widget, 
+				function(newname) 
+					local t = myrc.tagman.add(newname) 
+					myrc.tagman.move(t, awful.tag.selected()) 
+				end, 
+				awful.completion.bash,
+				awful.util.getdir("cache") .. "/tag_new")
+				myrc.keybind.pop()
+			end),
+
+			myrc.keybind.key({}, "d", "Delete current tag", function () 
+				myrc.tagman.del(awful.tag.selected()) 
+				myrc.keybind.pop()
+			end), 
+
+			myrc.keybind.key({}, "k", "Move tag right", function () 
+				myrc.tagman.move(awful.tag.selected(), myrc.tagman.getn(0))
+			end), 
+			myrc.keybind.key({}, "Right", "Move tag right", function () 
+				myrc.tagman.move(awful.tag.selected(), myrc.tagman.getn(0))
+			end), 
+
+			myrc.keybind.key({}, "j", "Move tag left", function () 
+				myrc.tagman.move(awful.tag.selected(), myrc.tagman.getn(-2))
+			end),
+
+			myrc.keybind.key({}, "Left", "Move tag left", function () 
+				myrc.tagman.move(awful.tag.selected(), myrc.tagman.getn(-2))
+			end)
+		}, "Tags action") 
+	end)  
 )
 
 
@@ -893,3 +951,6 @@ root.keys(globalkeys)
 naughty.notify({ title = "<b>Achtung!</b>", text = "" .. (timing.module_end - timing.module_start)
 , timeout = 0 })
 
+awful.tag.attached_add_signal(nil, "tagman::update", function (t) 
+	myrc.memory.set("tagnames","-", myrc.tagman.names())
+end)
