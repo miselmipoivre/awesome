@@ -29,8 +29,8 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "terminator"
---terminal = "urxvt"
-terminal = "urxvt-tabbed"
+terminal = "urxvt"
+--terminal = "urxvt-tabbed"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
